@@ -66,6 +66,24 @@ Optional features:
     GOPATH=/vagrant go test junoKvClient -test.v -test.bench . -test.run ^$ -test.benchtime 10s
     GOPATH=/vagrant go test junoKvServer -test.v -test.bench . -test.run ^$ -test.benchtime 10s
     
+### Contributing rules
+    # install http://hub.github.com
+    # create new issue on https://github.com/Slach/test_tasks/issues
+    git clone git@github.com:Slach/test_tasks.git ./juno-test
+    cd ./juno-test
+
+    git config core.autocrlf false
+    git config core.eol lf
+    git config user.name <YourName>
+    git config user.email <Your@Email>
+
+    git flow init
+    git flow feature start feature_name
+    git add *
+    git commit -s -m "commit description and link to issue i.e. #1"
+    git flow feature publish feature_name
+    hub pull-request --browse -m "Implemented feature X see issue #1" -i 1 -b Slach:master -h Slach:feature_name 
+    
 ### Simple client API usage
 ```go
     package main
