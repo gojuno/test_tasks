@@ -82,7 +82,7 @@ Optional features:
     git add *
     git commit -s -m "commit description and link to issue i.e. #1"
     git flow feature publish feature_name
-    hub pull-request --browse -m "Implemented feature X see issue #1" -i 1 -b Slach:master -h Slach:feature_name 
+    hub pull-request --browse -m "Implemented feature X see issue #1" -i 1 -b Slach:master -h Slach:feature/feature_name 
     
 ### Simple client API usage
 ```go
