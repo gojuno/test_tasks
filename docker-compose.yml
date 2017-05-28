@@ -1,0 +1,27 @@
+version: '2'
+services:
+    kv_server:
+        image: bloodjazman/juno_kv_server:latest
+        build:
+            context: .
+            dockerfile: Dockerfile
+        entrypoint: /juno-test/bin/kv_server
+        ports:
+            - 28379:8379
+    kv_client:
+        # image: bloodjazman/juno_kv_client:latest
+        build:
+            context: .
+            dockerfile: Dockerfile
+        entrypoint: /juno-test/bin/kv_client
+        depends_on:
+            - kv_server
+        links:
+            - kv_server
+    linter:
+        image: dnephin/gometalinter:latest
+        environment:
+            GOPATH: '/juno-test/'
+        volumes:
+            - ./:/juno-test/
+        entrypoint: gometalinter --config=/juno-test/.gometalinter.json --exclude=/go/src/ /juno-test/cmd/... /juno-test/src/junoKvServer/... /juno-test/src/junoKvClient/...

@@ -1,0 +1,17 @@
+architect:
+    - Slach
+docker:
+    image: bloodjazman/juno_kv_server
+    # directory: repo/Dockerfile
+env:
+    JUNO_KV_SERVER: localhost:6379
+merge:
+    script: |
+        /juno-test/bin/kv_server_bench -test.v -test.bench . -test.run ^$ -test.benchtime 10s
+        /juno-test/bin/kv_client_bench -test.v -test.bench . -test.run ^$ -test.benchtime 10s
+
+# @todo uncomment this after resolve https://github.com/golang/go/issues/14481
+#        /juno-test/bin/kv_server_bench_race -test.v -test.bench . -test.run ^$ -test.benchtime 10s
+#        /juno-test/bin/kv_client_bench_race -test.v -test.bench . -test.run ^$ -test.benchtime 10s
+    squash: true
+    fast-forward: default
