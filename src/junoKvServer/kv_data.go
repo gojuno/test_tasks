@@ -12,12 +12,12 @@ const (
 	itemTypeMap    = iota
 )
 
-// @todo try use in future https://github.com/golang/sync/blob/master/syncmap/map.go instead of Mutex + Map ?
+/** @todo #1:60m/DEV,ARCH try use in future https://github.com/golang/sync/blob/master/syncmap/map.go instead of Mutex + Map ? */
 type kvData struct {
 	data cmap.ConcurrentMap
 }
 
-// @todo it's really simple stupid global data map implementation (PHP like ;) with highly memory fragmentation, are we need more smarter implementation?
+/** @todo #1:60m/DEV,ARCH it's really simple stupid global data map implementation (PHP like ;) with highly memory fragmentation, are we need more smarter implementation? */
 type kvEntry struct {
 	t     int
 	s     []byte

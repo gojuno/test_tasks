@@ -3,9 +3,9 @@ package junoKvServer
 import (
 	"net"
 	"sync"
-	//@todo use junk_kv_client in future for write redis response protocol
 	"bufio"
 	"errors"
+	/** @todo #1:60m/DEV think use junoKVClient in future for write redis response protocol ? */
 	"github.com/siddontang/goredis"
 	"log"
 	"runtime"
@@ -36,7 +36,7 @@ type KVServer struct {
 	stoped   bool
 	quit     chan struct{}
 
-	//@todo investigate how to implement multiple TCP clients without Mutex?
+	/** @todo #1:60m/ARCH,DEV investigate how to implement multiple TCP clients without Mutex? */
 	clientsMutex sync.Mutex
 	clients      map[*client]struct{}
 	data         *kvData
@@ -66,7 +66,7 @@ func NewKVServer(addr string) (*KVServer, error) {
 	s.data = newKVData()
 
 	var err error
-	// @todo need ipv6 support for listen
+	/** @todo #1:15m/DEV need ipv6 support for listen */
 	if s.listener, err = net.Listen("tcp", addr); err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func (server *KVServer) Start() {
 		default:
 			conn, err := server.listener.Accept()
 			if err != nil {
-				//@todo to be or not to be structured log ? maybe try https://github.com/rs/zerolog or https://github.com/oklog/oklog ?
+				/** @todo #1:60m/DEV,ARCH to be or not to be structured log ? maybe try https://github.com/rs/zerolog or https://github.com/oklog/oklog ? */
 				log.Print(err.Error())
 				continue
 			}
@@ -115,7 +115,7 @@ func newClient(conn net.Conn, server *KVServer) {
 	c.server = server
 	c.conn = conn
 	if tcpConn, ok := conn.(*net.TCPConn); ok {
-		// @todo need config settings, what right constant value ?
+		/** @todo #1:60m/ARCH need config settings, what right constant value ? */
 		tcpConn.SetReadBuffer(4096)
 		tcpConn.SetWriteBuffer(4096)
 	}

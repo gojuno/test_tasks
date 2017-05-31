@@ -86,24 +86,27 @@ Optional features:
     
 ### Simple client API usage
 ```go
-    package main
-    import (
-        junoKvClient "github.com/Slach/juno-test/src/junoKvClient"
-        "bytes"
-        "log"
-    )
-    
-    func main() {
-        // @todo maybe consul service discovery need here? ;)
-        servers_with_weight := map[string]int{
-            "localhost:8379":1,
-            //"host2:8379":2, // use multiple host weight for add server
-        }
-        c := junoKvClient.NewClient(servers_with_weight)
-        v := 1
-        c.Set("test",v, 0)        
-        if !bytes.Equal([]byte(c.Get("test")),[]byte(v)) {
-            log.Fatal("test FAILED")
-        }
+package main
+import (
+    junoKvClient "github.com/Slach/test_tasks/src/junoKvClient"
+    "log"
+)
+
+func main() {
+    // @todo maybe consul service discovery need here? ;)
+    servers_with_weight := map[string]int{
+        "localhost:8379":1,
+        //"host2:8379":2, // use multiple host weight for add server
     }
+    c := junoKvClient.NewClient(servers_with_weight)
+    i := "1"
+    c.Set("test",i, 0)
+    v, err := c.Get("test")
+    if err != nil {
+        log.Fatal(err)
+    }
+    if v != i {
+        log.Fatal("test FAILED")
+    }
+}
 ```

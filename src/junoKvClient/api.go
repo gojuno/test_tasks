@@ -34,8 +34,8 @@ func (c *KVClient) Close() {
 	}
 }
 
+/** @todo #1:90m/DEV implement really async client */
 // RunCmd select connect from hash ring and execute command inside goredis
-// @todo implement really async client
 func (c *KVClient) RunCmd(cmd string, args ...interface{}) (interface{}, error) {
 	key := args[0].(string)
 	addr, ok := c.ring.GetNode(key)
@@ -72,16 +72,16 @@ func (c *KVClient) Set(key string, value interface{}, ttl int64) (error) {
 	return err
 }
 
+/** @todo #1:15m/QA anybody will read this code ? */
 // Del delete one entry, always return nil, b
 // server can delete multiple entry
-// @todo anybody will read this code ?
 func (c *KVClient) Del(key string) (err error) {
 	_, err = c.RunCmd("DEL", key)
 	return err
 }
 
+/** @todo #1:15m/ARCH how to skip conversion from ...interface to interface  ? */
 // ListPush create LIST_TYPE entry if not exists and append multiple values
-// @todo how to skip conversion from ...interface to interface  ?
 func (c *KVClient) ListPush(key string, values ...interface{}) (pushed int64, err error) {
 	args := make([]interface{}, len(values) + 1)
 	args[0] = key
@@ -115,14 +115,14 @@ func (c *KVClient) ListPush(key string, values ...interface{}) (pushed int64, er
 }
 
 
+/** @todo #1:15m/DEV maybe replace int64 to int16 or int32 ? we need strong defence from out of memory */
 // ListRange return slice from LIST_TYPE key, return error if key not exists see https://redis.io/commands/lrange for other restrictions
-// @todo maybe replace int64 to int16 or int32 ? we need strong defence from out of memory
 func (c *KVClient) ListRange(key string, from int64, to int64) ([]string, error) {
 	l, err := c.RunCmd("LRANGE", key, from, to)
 	if err != nil {
 		return nil, err
 	}
-	// @todo need best implementation for convert []interface{} to []string somebody please explain me WHAT this code do?
+	/** @todo #1:30m/ARCH need best implementation for convert []interface{} to []string somebody please explain me WHAT this code do? */
 	switch l := l.(type) {
 	case []interface{}:
 		s := make([]string,len(l))
@@ -138,15 +138,15 @@ func (c *KVClient) ListRange(key string, from int64, to int64) ([]string, error)
 }
 
 
+/** @todo #1:15m/DEV maybe replace int64 to int16 or int32 ? we need strong defence from out of memory */
 // ListSet set value for item in LIST_TYPE key with index offset, return error if key not found or key has wrong type
-// @todo maybe replace int64 to int16 or int32 ? we need strong defence from out of memory
 func (c *KVClient) ListSet(key string, index int64, value interface{}) (err error) {
 	_, err = c.RunCmd("LSET", key, index, value)
 	return err
 }
 
+/** @todo #1:15m/DEV maybe replace int64 to int16 or int32 ? we need strong defence from out of memory */
 // ListDel delete item from LIST_TYPE key by value https://redis.io/commands/lrem for other restrictions
-// @todo maybe replace int64 to int16 or int32 ? we need strong defence from out of memory
 func (c *KVClient) ListDel(key string, count int64, value interface{}) (err error) {
 	_, err = c.RunCmd("LREM", key, count, value)
 	return err

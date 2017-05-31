@@ -8,7 +8,7 @@ import (
 	"strings"
 	"github.com/peterh/liner"
 	"github.com/siddontang/goredis"
-	// @todo use juno_kv_client instead of goredis
+	/** @todo #1:30m/DEV use juno_kv_client instead of goredis */
 	// "juno_kv_client"
 	"log"
 )

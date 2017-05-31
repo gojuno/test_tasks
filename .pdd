@@ -1,0 +1,5 @@
+--source=./src/
+--verbose
+--exclude src/github.com/*
+--available-roles:DEV,PM,ARCH,QA
+--rule min-words:4
