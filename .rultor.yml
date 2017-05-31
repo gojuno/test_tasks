@@ -22,5 +22,4 @@ merge:
 #        /juno-test/bin/kv_server_bench_race -test.v -test.bench . -test.run ^$ -test.benchtime 10s
 #        /juno-test/bin/kv_client_bench_race -test.v -test.bench . -test.run ^$ -test.benchtime 10s
     squash: true
-    rebase: true
     fast-forward: default
