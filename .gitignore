@@ -1,4 +1,4 @@
-# @todo i don't understand howto vendor worked? and why i need glide instead of go get
+# @todo #1:16m/ARCH i don't understand howto vendor worked? and why i need glide\govendor instead of simple go get?
 vendor
 src/github.com
 *.log

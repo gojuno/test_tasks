@@ -8,6 +8,7 @@ import (
 	"time"
 	"bytes"
 	"github.com/gobwas/glob"
+	"github.com/streamrail/concurrent-map"
 )
 
 type commandHandler func(c *client) error
@@ -72,7 +73,7 @@ func setCommand(c *client) error {
 	return nil
 }
 
-// @todo need strong refactoring for Expire, what happening when we create too much timer?
+/** @todo #1:60m/DEV need strong refactoring for Expire, what happening when we create too much timer? */
 func expireCommand(c *client) error {
 	args := c.args
 	if len(args) != 2 {
@@ -122,7 +123,7 @@ func delCommand(c *client) error {
 	return nil
 }
 
-// @todo memory management need be more efficient
+/** @todo #1:60m/DEV memory management need be more efficient */
 func lpushCommand(c *client) error {
 	args := c.args
 	if len(args) < 2 {
@@ -134,7 +135,7 @@ func lpushCommand(c *client) error {
 		return err
 	}
 	entry.l = append(entry.l, args[1:]...)
-	// @todo Are we need copy over cmap.Set or append is enough
+	/** @todo #1:15m/DEV,ARCH Are we need copy over cmap.Set or append is enough? */
 	c.server.data.Set(key, itemTypeList, entry.l)
 
 	c.respWriter.writeInteger(int64(len(args) - 1))
@@ -220,12 +221,12 @@ func lsetCommand(c *client) error {
 		return errors.New("List index out of range")
 	}
 	lst.l[index] = args[2]
-	// @todo Are we need copy over cmap.Set or append is enough?
+	/** @todo #1:15m/DEV,ARCH Are we need copy over cmap.Set or append is enough? */
 	c.server.data.Set(key, itemTypeList, lst.l)
 	return nil
 }
 
-// @todo think about refactoring in LREM without full copy of list, for low memory footprint
+/** @todo #1:60m/DEV,ARCH think about refactoring in LREM without full copy of list, for low memory footprint */
 func lremCommand(c *client) error {
 	var entry *kvEntry
 	var err error
@@ -294,7 +295,7 @@ func hsetCommand(c *client) error {
 	if err != nil {
 		return err
 	}
-	// @todo need check for value size
+	/** @todo #1:15m/DEV need check for value size */
 	entry.m[subKey] = value
 	c.server.data.Set(key, itemTypeMap, entry.m)
 	c.respWriter.writeInteger(1)

@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-// @todo implements full key-value api test with miniredis
+/** @todo #1:120m/QA implements full key-value api test with miniredis */
 func TestJunoKVClientAPI(t *testing.T) {
 	s, err := miniredis.Run()
 	if err != nil {
