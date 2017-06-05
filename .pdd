@@ -1,0 +1,6 @@
+--source=./src/
+--verbose
+--exclude src/github.com/*
+--rule available-roles:DEV,PM,ARCH,QA
+--rule min-words:4
+--rule max-duplicates:10

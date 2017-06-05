@@ -1,0 +1,25 @@
+language: go
+
+go:
+  - 1.8.x
+
+go_import_path: github.com/Slach/test_tasks
+before_install:
+  - export GOPATH=/home/travis/gopath/src/github.com/Slach/test_tasks
+  - go get -u github.com/alecthomas/gometalinter
+  - $GOPATH/bin/gometalinter --install
+
+install:
+  - GOPATH=/home/travis/gopath/src/github.com/Slach/test_tasks cd ./src/ && go get -v -t ./... && cd ../
+  - GOPATH=/home/travis/gopath/src/github.com/Slach/test_tasks cd ./cmd/ && go get -d ./... && cd ../
+
+# before_script:
+#  - GOPATH=/home/travis/gopath/src/github.com/Slach/test_tasks $GOPATH/bin/gometalinter --config=.gometalinter.json --exclude=/go/src/ ./src/junoKvServer/... ./src/junoKvClient/...
+
+script:
+  - go test junoKvClient -test.v -test.bench . -test.run . -test.benchtime 10s
+  - go test junoKvServer -test.v -test.bench . -test.run . -test.benchtime 10s
+
+matrix:
+  allow_failures:
+    - go: master

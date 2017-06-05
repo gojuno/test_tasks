@@ -1,0 +1,26 @@
+architect:
+    - Slach
+# /** @todo #1:15m/QA check 0pdd.com for parse short variant of puzzles again!!? see https://github.com/yegor256/0pdd/issues/92 */
+# docker:
+#    image: bloodjazman/juno_kv_server
+#    directory: repo/Dockerfile
+install: |
+    pwd
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 136221EE520DDFAF0A905689B9316A7BC7917B12
+    sudo add-apt-repository ppa:gophers/archive
+    sudo apt-get update
+    sudo apt-get install -y golang-1.8
+    sudo ln -nvsf /usr/lib/go-1.8/bin/go /bin/go
+    sudo ln -nvsf /usr/lib/go-1.8/bin/gofmt /bin/gofmt
+    bash -c "cd /home/r/src && GOPATH=/home/r go get -v ./..."
+
+merge:
+    script: |
+        GOPATH=/home/r go test junoKvClient -test.v -test.bench . -test.run . -test.benchtime 10s
+        GOPATH=/home/r go test junoKvServer -test.v -test.bench . -test.run . -test.benchtime 10s
+
+# /** @todo #1:15m/QA uncomment this after resolve https://github.com/golang/go/issues/14481 */
+#        /juno-test/bin/kv_server_bench_race -test.v -test.bench . -test.run ^$ -test.benchtime 10s
+#        /juno-test/bin/kv_client_bench_race -test.v -test.bench . -test.run ^$ -test.benchtime 10s
+    squash: true
+    fast-forward: default
