@@ -8,7 +8,6 @@ import (
 	"time"
 	"bytes"
 	"github.com/gobwas/glob"
-	"github.com/streamrail/concurrent-map"
 )
 
 type commandHandler func(c *client) error

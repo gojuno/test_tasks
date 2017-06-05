@@ -49,7 +49,7 @@ Optional features:
     docker-compose up -d kv_server 
     docker-compose run --rm kv_client
 
-### Run redis-benchamrk inside Vagrant
+### Run redis-benchmark inside Vagrant
     vagrant plugin install hostmanager
     vagrant up --provision
     vagrant ssh juno_test
@@ -58,7 +58,7 @@ Optional features:
     GOPATH=/vagrant go run cmd/kv_server.go &
     redis-benchmark -p 8379 -n 50000 -c 100 -t set,get,lpush,lrange,hget,hset -q 
 
-### Run inline benchamrk inside Vagrant
+### Run inline benchmark inside Vagrant
     vagrant up --provision
     vagrant ssh juno_test
     sudo bash
@@ -110,3 +110,7 @@ func main() {
     }
 }
 ```
+
+### Badges collection ###
+
+[![Build Status](https://travis-ci.org/Slach/test_tasks.svg?branch=develop)](https://travis-ci.org/Slach/test_tasks)
