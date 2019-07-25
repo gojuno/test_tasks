@@ -10,7 +10,7 @@ Desired features:
   - Set
   - Remove
 - Golang API client
-- Provide some tests, API spec, deployment docs without full coverage, just a few cases and some examples of telnet/http calls to the server.
+- Provide some tests, API spec, deployment docs without full coverage, just a few cases and some examples of client usages.
 
 Optional features:
 - Telnet-like/HTTP-like API protocol
