@@ -12,7 +12,7 @@ Desired features:
 - Golang API client
 - Provide some tests, API spec, some deployment manual, some examples of client usages would be nice.
 
-O/ptional features:
+Optional features:
 - Telnet-like/HTTP-like API protocol
 - performance tests
 - Operations:
