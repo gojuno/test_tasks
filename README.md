@@ -10,15 +10,10 @@ Desired features:
   - Set
   - Remove
 - Golang API client
-- Telnet-like/HTTP-like API protocol
 - Provide some tests, API spec, deployment docs without full coverage, just a few cases and some examples of telnet/http calls to the server.
 
 Optional features:
-- persistence to disk/db
 - scaling(on server-side or on client-side, up to you)
-- auth
 - performance tests
 - Operations:
-  - Update
   - Keys
-- wal
